@@ -55,7 +55,7 @@ const init = async () => {
 }
 
 const changeActive = index => {
-  console.log('changeActive1', index)
+  console.log('changeActive2', index)
   state.activePage = index
 }
 </script>>
