@@ -1,10 +1,7 @@
 @import './base.css';
 
+/* App-level layout resets */
 #app {
-  max-width: 1500px;
-  min-width: 1360px;
-  margin: 0 auto;
-  padding: 0;
-  font-weight: normal;
-  font-size: 12px;
+  width: 100%;
+  min-height: 100vh;
 }

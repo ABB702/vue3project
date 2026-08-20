@@ -26,6 +26,12 @@ export default [{
                 icon: '../components/icons/IconTooling.vue',
                 active: './components/icons/IconSupport.vue',
                 path: "/",
+                name: "系统首页"
+            },
+            {
+                icon: '../components/icons/IconTooling.vue',
+                active: './components/icons/IconSupport.vue',
+                path: "/monitor",
                 name: "风场监视"
             },
             {
