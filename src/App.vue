@@ -81,6 +81,26 @@ const state = reactive({
 })
 
 const ins = getCurrentInstance()
+const testView = () => {
+  const input = [0,1,0,3,12]
+  let result = mFunc(input)
+  console.warn('result:', result)
+}
+// 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+// 请注意 ，必须在不复制数组的情况下原地对数组进行操作。
+const mFunc = function(nums) {
+    for (let i = 0; i < nums.length; i++) {
+        let j = i
+        while(j < nums.length && !nums[j]) j++
+        if (j < nums.length) {
+          nums[i] = nums[j]
+          if (i!==j) nums[j] = 0
+        } else {
+          nums[i] = 0
+        }
+    }
+    return nums
+};
 
 onMounted(async () => {
   await getMenu({ userId: 1 }, res => {
@@ -89,6 +109,7 @@ onMounted(async () => {
   ins.proxy.$eventBus.on('router-change', () => {
     state.activePage = 1
   })
+  testView()
 })
 
 const changeActive = index => {
