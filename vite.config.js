@@ -9,6 +9,8 @@ import { viteMockServe } from 'vite-plugin-mock'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // 部署到 GitHub Pages 子路径时由 CI 注入，本地默认 '/'
+  base: process.env.VITE_BASE || '/',
   plugins: [
     vue(),
     AutoImport({

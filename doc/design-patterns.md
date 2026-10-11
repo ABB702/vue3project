@@ -173,7 +173,7 @@ const { getInstance, destroy } = (() => {
 
 ---
 
-### 方法3：静态方法（修复版）
+### 方法3：静态方法
 
 ```js
 class Store {
@@ -184,6 +184,8 @@ class Store {
         if (Store.#instance) {
             throw new Error('请使用 Store.getInstance()')
         }
+        // 关键：constructor 里自己赋值，防止绕过 getInstance 直接 new
+        Store.#instance = this
         this.data = {}
     }
 
@@ -213,6 +215,10 @@ new Store() // Error: 请使用 Store.getInstance()
 **Q：为什么说方法3有隐患？没调 `getInstance` 怎么会创建新实例？**
 
 因为 `Store` 类是公开的，任何人都可以直接 `new Store()` 绕过 `getInstance`，语法上完全合法，JS 不会阻止。加构造函数守卫就是把"要用 `getInstance`"这个隐性约定变成强制报错。
+
+**Q：守卫只在 `#instance` 非 null 时才报错，那没调过 `getInstance` 直接 `new` 两次会怎样？**
+
+如果 constructor 里不自己给 `#instance` 赋值，直接 `new` 永远不会更新 `#instance`，它一直是 `null`，守卫永远不触发，单例被破坏。所以必须在 constructor 里加 `Store.#instance = this`，第一次 `new` 执行完后 `#instance` 就有值了，第二次再 `new` 守卫才能拦住。
 
 ---
 

@@ -1,0 +1,39 @@
+# AI 代码审查：PR 打开或更新时，由 Claude 审查改动并在 PR 中留下评论
+# 需要在仓库 Settings > Secrets and variables > Actions 中添加 ANTHROPIC_API_KEY
+name: AI Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            请审查这个 PR 的改动（Vue 3 + Vite + Element Plus 项目），用中文给出意见，重点关注：
+            - 潜在 bug 和逻辑错误
+            - Vue 3 组合式 API / 响应式的误用
+            - 性能问题（不必要的重渲染、内存泄漏、未清理的定时器/事件监听）
+            - 安全问题（XSS、v-html、敏感信息泄露）
+            - 可读性和可维护性
+
+            对具体代码行使用行内评论，最后用 `gh pr comment` 发一条总结评论。
+            没问题的地方不用夸，只写需要改进的点。
+          claude_args: |
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"

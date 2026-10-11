@@ -1,0 +1,30 @@
+# PR 检查：每次提交 PR 或推送到 PR 分支时运行 lint + 构建
+name: CI
+
+on:
+  pull_request:
+    branches: [master]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # CI 中不使用 --fix，只检查
+      - name: Lint
+        run: npx eslint . --ext .vue,.js,.jsx,.cjs,.mjs --ignore-path .gitignore
+
+      - name: Build
+        run: npm run build

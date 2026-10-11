@@ -82,24 +82,15 @@ const state = reactive({
 
 const ins = getCurrentInstance()
 const testView = () => {
-  const input = [[1,1,1], 2]
+  const input = [[1,2,3,4,5,6,7], 3]
   let result = mFunc(...input)
   console.warn('result:', result)
 }
 
-// 和为k的子数组
+// 旋转数组
 const mFunc = function(nums, k) {
-    let preArr = [0]
-    for (let i = 1; i< nums.length-1; i++) {
-        preArr.push(nums[i-1]+preArr[i-1])
-    }
-    let m = new Map()
-    let result = 0
-    for(let i=0;i<nums.length;i++) {
-        result += (m.get(preArr[i]-k)??0)
-        m.set(preArr[i], (m.get(preArr[i])??0)+ 1)
-    }
-    return result
+    let realK = k%nums.length
+    return [...nums.slice(nums.length - realK),...nums.slice(0, nums.length - realK)]
 };
 
 

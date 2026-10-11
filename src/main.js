@@ -14,3 +14,8 @@ app.config.globalProperties.$eventBus = mitt();
 i18n.global.locale = 'zh';
 
 app.mount('#app')
+
+// todolist
+// 1.ts
+// 2.简历重写
+// 3.review cicd
