@@ -97,7 +97,7 @@ onBeforeUnmount(() => clearInterval(timer))
           </svg>
         </div>
         <div>
-          <h1 class="header-title">风力发电综合监控平台</h1>
+          <h1 class="header-title">风力发电综合监控平台1</h1>
           <p class="header-subtitle">Wind Power Generation Monitoring System</p>
         </div>
         <!-- Live indicator -->
