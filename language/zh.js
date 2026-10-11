@@ -1,7 +1,7 @@
 export const lang = {
     zh: {
         windOverview: {
-            overview: '风场信息概览',
+            overview: '风场信息概览1',
             status: '风场状态：',
             online: '在线',
             averageSpeed: '全场平均风速',
